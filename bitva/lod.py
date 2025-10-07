@@ -37,4 +37,7 @@ class Lod:
                 self._trup = 0
                 zprava = f'{zprava[:-1]} a byla znicena!'
 
-    def nastav_zpravu(self.zprava)
+    def nastav_zpravu(self.zprava):
+        self.zprava = zprava
+
+    def vypis_zpra
