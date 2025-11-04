@@ -9,7 +9,8 @@ class Sektor:
     Sprava souboje dvou lodi
     """
 
-    def __init__(self, lod_1, lod_2, kostka):
+    def __init__(self, lod_1, lod_2, kostka, jmeno="bez nazvu"):
+        self._jmeno = jmeno
         self._lod_1 = lod_1
         self._lod_2 = lod_2
         self._kostka = kostka
@@ -27,14 +28,17 @@ class Sektor:
     def _vypis_lod(self, lod):
         print(lod)
         print(f'Trup: {lod._trup}\n')
-        ###nemusi tu byt print lod jmeno protoze mame v lodi timto zadefinovanou textovou podobu toho souboru  
+
+        """
+        nemusi tu byt print lod jmeno protoze mame v lodi timto zadefinovanou textovou podobu toho souboru  
             
-        #def __str__(self):
-            #return str(self._jmeno)
+        def __str__(self):
+            return str(self._jmeno)
+            """
 
     def _vykresli(self):
         self._vycisti()
-        print('======================= Sektor Orion =======================\n')
+        print(f'======================= Sektor {self._jmeno} ======================= \n')
         print('Lodě\n')
         self._vypis_lod(self._lod_1)
         self._vypis_lod(self._lod_2)
@@ -42,13 +46,33 @@ class Sektor:
         
 
     def souboj(self):
-        print("Vítej v sektoru Orion!")
+        print(f"Vítej v sektoru {self._jmeno}!")
         print("======================")
         print(f"Dnes se utkají loďe:")
         self._vypis_lod(self._lod_1)
         self._vypis_lod(self._lod_2)
         print("Zahajit souboj...")
         input()
+
+        import random
+        if random.randint(0, 1):
+            self._lod_1, self._lod_2 = self._lod_2, self._lod_1
+
+
+            """
+            pomocna_promenna = self._lod_1
+            self._lod_1 = self._lod_2
+            self.lod_2 = pomocna_promenna
+
+            nevim proc nefunguje
+            """
+
+        
+
+
+
+
+            
 
         while self._lod_1.je_operacni() and self._lod_2.je_operacni():
             self._lod_1.utoc(self._lod_2)
@@ -69,12 +93,16 @@ class Sektor:
         import time as _time
         if zprava:
             print(zprava)
-            _time.sleep(.2)
+            _time.sleep(.01)
 
 if __name__ == '__main__':
     k = Kostka(10)
-    lodicka = Lod("Queen Anne's Revenge", 100, 40, 50, k)
-    clun = Lod("Iron Lung", 40, 20, 30, k)
-    orion = Sektor(lodicka, clun, k)
+    lodicka = Lod("Queen Anne's Revenge", 100, 50, 50, k)
+    clun = Lod("Iron Lung", 95, 55, 45, k)
+    lod3 = Lod("Bomboklad", kostka=k, trup=80, utok=60, stit=70)
+
+    orion = Sektor(lodicka, clun, k, "Orion")
+    gamma = Sektor(lodicka, lod3, k, "Gamma")
 
     orion.souboj()
+    gamma.souboj()

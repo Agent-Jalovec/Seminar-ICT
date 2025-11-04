@@ -23,3 +23,4 @@ def main():
     
 if __name__ == '__main__':
     main()
+    #spusti se pouze kdyz spoustime primo (ne pri importu)
