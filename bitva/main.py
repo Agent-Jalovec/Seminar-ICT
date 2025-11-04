@@ -31,6 +31,14 @@ class Sektor:
             
         #def __str__(self):
             #return str(self._jmeno)
+
+    def _vykresli(self):
+        self._vycisti()
+        print('======================= Sektor Orion =======================\n')
+        print('Lodě\n')
+        self._vypis_lod(self._lod_1)
+        self._vypis_lod(self._lod_2)
+
         
 
     def souboj(self):
@@ -44,11 +52,13 @@ class Sektor:
 
         while self._lod_1.je_operacni() and self._lod_2.je_operacni():
             self._lod_1.utoc(self._lod_2)
+            self._vykresli()
             self._vypis_zpravu(self._lod_1.vypis_zpravu())
             self._vypis_zpravu(self._lod_2.vypis_zpravu())
 
             if self._lod_2.je_operacni():
                 self._lod_2.utoc(self._lod_1)
+                self._vykresli()
                 self._vypis_zpravu(self._lod_2.vypis_zpravu())
                 self._vypis_zpravu(self._lod_1.vypis_zpravu())
 
@@ -56,7 +66,10 @@ class Sektor:
 
     
     def _vypis_zpravu(self, zprava):
-        print(zprava)
+        import time as _time
+        if zprava:
+            print(zprava)
+            _time.sleep(.2)
 
 if __name__ == '__main__':
     k = Kostka(10)
@@ -65,6 +78,3 @@ if __name__ == '__main__':
     orion = Sektor(lodicka, clun, k)
 
     orion.souboj()
-
-    lodicka.utoc(clun)
-    print(clun.vypis_zpravu())
