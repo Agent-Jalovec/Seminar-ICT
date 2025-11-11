@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from simple import Kostka
-from lod import Lod
+from lod import Lod, Stihac
 
 class Sektor:
     """
@@ -27,7 +27,8 @@ class Sektor:
 
     def _vypis_lod(self, lod):
         print(lod)
-        print(f'Trup: {lod._trup}\n')
+        #print(f'Trup: {lod._trup}\n')
+        print(f'Trup: {lod.graficky_trup()}')
 
         """
         nemusi tu byt print lod jmeno protoze mame v lodi timto zadefinovanou textovou podobu toho souboru  
@@ -93,15 +94,17 @@ class Sektor:
         import time as _time
         if zprava:
             print(zprava)
-            _time.sleep(.01)
+            _time.sleep(.5)
 
 if __name__ == '__main__':
     k = Kostka(10)
     lodicka = Lod("Queen Anne's Revenge", 100, 50, 50, k)
     clun = Lod("Iron Lung", 95, 55, 45, k)
     lod3 = Lod("Bomboklad", kostka=k, trup=80, utok=60, stit=70)
+    fighter = Stihac("Dingle", 90, 50, 60, k, 100, 90)
 
-    orion = Sektor(lodicka, clun, k, "Orion")
+    orion = Sektor(lodicka, fighter, k, "Orion")
+    #orion = Sektor(lodicka, clun, k, "Orion")
     gamma = Sektor(lodicka, lod3, k, "Gamma")
 
     orion.souboj()
