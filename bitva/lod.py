@@ -24,12 +24,15 @@ class Lod:
     def je_operacni(self):
         return self._trup > 0
 
-    def graficky_trup(self):
+    def graficky_ukazatel(self, aktualni, maximalni):
         celkem = 20
-        pocet = int(self._trup / self._max_trup * celkem)
+        pocet = int(aktualni / maximalni * celkem)
         if pocet == 0 and self.je_operacni():
             pocet = 1
         return f"[  {'#'*pocet}{' '*(celkem-pocet)}]"
+    
+    def graficky_trup(self):
+        return self.graficky_ukazatel(self._trup, self._max_trup)
 
     def utoc(self, souper):
         uder = self._utok + self._kostka.hod()
@@ -70,10 +73,29 @@ class Stihac(Lod):
 
     def utoc(self, souper):
         if self._energie < self._max_energie:
-            self.energie = min(self._max_energie, self._energie + 10)
+            self._energie = min(self._max_energie, self._energie + 10)
             super().utoc(souper)
         else:
             uder = self._laserovy_utok + self._kostka.hod()
             self.nastav_zpravu(f'{self._jmeno} útočí LASERem o síle {uder} hp.')
             self._energie = 0
             souper.bran_se(uder)
+
+    def graficka_energie(self):
+        return self.graficky_ukazatel(self._energie, self._max_energie)
+
+class Korbačik(Lod):
+    def __init__(self, jmeno, trup, utok, stit, kostka):
+        super().__init__(jmeno, trup, utok, stit, kostka)
+
+    def bran_se(self, uder):
+        poskozeni = uder - (self._stit + 2 * self._kostka.hod())
+        if poskozeni > 0:
+            zprava = f'{self._jmeno} utrpela poskozeni {poskozeni} hp.'
+            self._trup -= poskozeni
+            if self._trup < 0:
+                self._trup = 0
+                zprava = f'{zprava[:-1]} a byla znicena.'
+        else:
+            zprava = f'{self._jmeno} kompletne odrazil utok stity.'
+        self.nastav_zpravu(zprava)
